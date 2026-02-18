@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+        <div>
+            <h2 style="color: #2c3e50; margin-bottom: 10px;">{{ opportunity.title }}</h2>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <span style="background: #3498db; color: white; padding: 5px 15px; border-radius: 15px;">
+                    🏛️ {{ opportunity.university }}
+                </span>
+                <span style="background: #27ae60; color: white; padding: 5px 15px; border-radius: 15px;">
+                    📚 {{ opportunity.category }}
+                </span>
+                <span style="background: #e67e22; color: white; padding: 5px 15px; border-radius: 15px;">
+                    🎓 {{ opportunity.domain }}
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin: 30px 0;">
+        <h3>Description</h3>
+        <p style="line-height: 1.8; color: #555;">{{ opportunity.description }}</p>
+    </div>
+    
+    {% if opportunity.requirements %}
+    <div style="margin: 30px 0;">
+        <h3>Requirements</h3>
+        <p style="line-height: 1.8; color: #555;">{{ opportunity.requirements }}</p>
+    </div>
+    {% endif %}
+    
+    {% if opportunity.url %}
+    <div style="margin: 30px 0;">
+        <h3>Source Link</h3>
+        <a href="{{ opportunity.url }}" target="_blank" style="color: #3498db;">{{ opportunity.url }}</a>
+    </div>
+    {% endif %}
+    
+    <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee;">
+        {% if application %}
+            <div style="background: #d4edda; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                ✅ You have already applied to this opportunity!
+                <p style="margin-top: 10px;"><strong>Status:</strong> {{ application.status }}</p>
+            </div>
+        {% else %}
+            <h3 style="margin-bottom: 15px;">�� Quick Apply</h3>
+            <p style="margin-bottom: 15px; color: #555;">
+                Click below to automatically submit your application using your profile information.
+            </p>
+            <form method="POST" action="{{ url_for('opportunities.apply_opportunity', id=opportunity.id) }}">
+                <button type="submit" class="btn btn-success" style="padding: 15px 40px; font-size: 1.1rem;">
+                    Apply Now
+                </button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('opportunities.dashboard') }}" class="btn">← Back to Dashboard</a>
+</div>
+{% endblock %}

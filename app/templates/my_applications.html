@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="margin-bottom: 20px;">📝 My Applications</h2>
+
+<div class="card">
+    {% if applications %}
+        <div style="display: grid; gap: 20px;">
+            {% for app in applications %}
+            <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9;">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div style="flex: 1;">
+                        <h3 style="color: #2c3e50; margin-bottom: 10px;">{{ app.opportunity.title }}</h3>
+                        <p style="color: #666; margin-bottom: 10px;">{{ app.opportunity.university }} | {{ app.opportunity.category }}</p>
+                        <p style="color: #555;">{{ app.opportunity.description[:150] }}...</p>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        {% if app.status == 'submitted' %}
+                        <span style="background: #3498db; color: white; padding: 8px 15px; border-radius: 20px; white-space: nowrap;">
+                            ✓ Submitted
+                        </span>
+                        {% elif app.status == 'accepted' %}
+                        <span style="background: #27ae60; color: white; padding: 8px 15px; border-radius: 20px; white-space: nowrap;">
+                            ✓ Accepted
+                        </span>
+                        {% elif app.status == 'rejected' %}
+                        <span style="background: #e74c3c; color: white; padding: 8px 15px; border-radius: 20px; white-space: nowrap;">
+                            ✗ Rejected
+                        </span>
+                        {% else %}
+                        <span style="background: #95a5a6; color: white; padding: 8px 15px; border-radius: 20px; white-space: nowrap;">
+                            ⏳ Pending
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666;">
+                    Applied on: {{ app.submitted_at.strftime('%B %d, %Y at %I:%M %p') }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 60px;">
+            <p style="font-size: 1.2rem; color: #999; margin-bottom: 20px;">You haven't applied to any opportunities yet.</p>
+            <a href="{{ url_for('opportunities.dashboard') }}" class="btn btn-success">Browse Opportunities</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

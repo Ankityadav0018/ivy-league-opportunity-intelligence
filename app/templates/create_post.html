@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="margin-bottom: 30px;">✍️ Create New Post</h2>
+
+<div class="card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Post Title *</label>
+            <input type="text" id="title" name="title" required placeholder="Share your achievement, idea, or question">
+        </div>
+        
+        <div class="form-group">
+            <label for="domain">Domain</label>
+            <select id="domain" name="domain">
+                <option value="{{ current_user.domain }}" selected>{{ current_user.domain }}</option>
+                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Law">Law</option>
+                <option value="Biomedical">Biomedical</option>
+                <option value="Economics">Economics</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="content">Content *</label>
+            <textarea id="content" name="content" rows="8" required placeholder="Write your post content here..."></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn btn-success">Publish Post</button>
+            <a href="{{ url_for('community.index') }}" class="btn" style="background: #95a5a6;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

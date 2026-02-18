@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="margin-bottom: 30px;">➕ Create New Opportunity</h2>
+
+<div class="card">
+    <p style="margin-bottom: 20px; color: #666;">
+        Share a hackathon, internship, job opening, or other opportunity with the community!
+    </p>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Opportunity Title *</label>
+            <input type="text" id="title" name="title" required placeholder="e.g., Software Engineering Internship at Google">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Hackathon">Hackathon</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Job">Full-Time Job</option>
+                    <option value="Research">Research Position</option>
+                    <option value="Scholarship">Scholarship</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Conference">Conference</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="domain">Domain *</label>
+                <select id="domain" name="domain" required>
+                    <option value="">Select Domain</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Law">Law</option>
+                    <option value="Biomedical">Biomedical</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea id="description" name="description" rows="6" required placeholder="Provide a detailed description of the opportunity, responsibilities, and benefits..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="requirements">Requirements</label>
+            <textarea id="requirements" name="requirements" rows="4" placeholder="List any required skills, qualifications, or eligibility criteria..."></textarea>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="university">Company/Organization</label>
+                <input type="text" id="university" name="university" placeholder="e.g., Google, Microsoft, Stanford University">
+            </div>
+            
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="e.g., Remote, New York, USA">
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="deadline">Application Deadline</label>
+                <input type="date" id="deadline" name="deadline">
+            </div>
+            
+            <div class="form-group">
+                <label for="url">External URL (Optional)</label>
+                <input type="url" id="url" name="url" placeholder="https://example.com/opportunity">
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 30px;">
+            <button type="submit" class="btn btn-success" style="padding: 15px 30px;">✨ Create Opportunity</button>
+            <a href="{{ url_for('opportunities.my_opportunities') }}" class="btn" style="background: #95a5a6; padding: 15px 30px;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

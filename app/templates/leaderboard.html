@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="margin-bottom: 30px;">🏆 InCoScore Leaderboard</h2>
+
+<div class="card">
+    <div style="margin-bottom: 30px;">
+        <h3 style="margin-bottom: 15px;">Filter by Domain</h3>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="{{ url_for('ranking.leaderboard') }}" class="btn {% if not selected_domain %}btn-success{% endif %}">All Domains</a>
+            {% for domain in domains %}
+                <a href="{{ url_for('ranking.leaderboard', domain=domain) }}" 
+                   class="btn {% if selected_domain == domain %}btn-success{% endif %}">
+                    {{ domain }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    
+    {% if leaderboard %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #2c3e50; color: white;">
+                        <th style="padding: 15px; text-align: left;">Rank</th>
+                        <th style="padding: 15px; text-align: left;">Student</th>
+                        <th style="padding: 15px; text-align: left;">Domain</th>
+                        <th style="padding: 15px; text-align: center;">InCoScore</th>
+                        <th style="padding: 15px; text-align: center;">Hackathons</th>
+                        <th style="padding: 15px; text-align: center;">Internships</th>
+                        <th style="padding: 15px; text-align: center;">Research Papers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in leaderboard %}
+                    <tr style="border-bottom: 1px solid #ddd; {% if student.username == current_user.username %}background: #fff3cd;{% endif %}">
+                        <td style="padding: 15px; font-weight: bold; font-size: 1.2rem;">
+                            {% if student.rank == 1 %}🥇
+                            {% elif student.rank == 2 %}🥈
+                            {% elif student.rank == 3 %}🥉
+                            {% else %}{{ student.rank }}
+                            {% endif %}
+                        </td>
+                        <td style="padding: 15px;">
+                            <div style="font-weight: bold;">{{ student.name }}</div>
+                            <div style="font-size: 0.85rem; color: #666;">@{{ student.username }}</div>
+                        </td>
+                        <td style="padding: 15px;">
+                            <span style="background: #e67e22; color: white; padding: 5px 10px; border-radius: 12px; font-size: 0.85rem;">
+                                {{ student.domain }}
+                            </span>
+                        </td>
+                        <td style="padding: 15px; text-align: center; font-size: 1.5rem; font-weight: bold; color: #e74c3c;">
+                            {{ student.incoscore }}
+                        </td>
+                        <td style="padding: 15px; text-align: center;">{{ student.hackathons }}</td>
+                        <td style="padding: 15px; text-align: center;">{{ student.internships }}</td>
+                        <td style="padding: 15px; text-align: center;">{{ student.research_papers }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p style="text-align: center; padding: 60px; color: #999;">No students found in this domain.</p>
+    {% endif %}
+</div>
+
+<div class="card" style="margin-top: 20px; background: #e8f4f8;">
+    <h3 style="margin-bottom: 15px;">📊 InCoScore Formula</h3>
+    <p style="line-height: 1.8;">
+        <strong>InCoScore = </strong><br>
+        (Hackathons × 10) + (Internships × 15) + (Research Papers × 20) + (Coding Score × 0.5) + (Competition Wins × 12)
+    </p>
+</div>
+{% endblock %}

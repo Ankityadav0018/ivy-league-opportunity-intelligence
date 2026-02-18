@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>📊 Your Personalized Dashboard</h2>
+    <a href="{{ url_for('opportunities.scrape_opportunities') }}" class="btn btn-success">🔄 Scrape New Opportunities</a>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 15px;">Welcome, {{ current_user.full_name }}!</h3>
+    <p><strong>Domain:</strong> {{ current_user.domain }}</p>
+    <p><strong>InCoScore:</strong> <span style="font-size: 1.5rem; color: #e74c3c; font-weight: bold;">{{ current_user.incoscore }}</span></p>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 20px;">🎯 Opportunities Matching Your Domain ({{ current_user.domain }})</h3>
+    
+    {% if opportunities %}
+        <div style="display: grid; gap: 15px;">
+            {% for opp in opportunities %}
+            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; background: #f9f9f9;">
+                <h4 style="color: #2c3e50; margin-bottom: 10px;">{{ opp.title }}</h4>
+                <p style="color: #555; margin-bottom: 10px;">{{ opp.description[:200] }}...</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                    <span style="background: #3498db; color: white; padding: 5px 10px; border-radius: 3px; font-size: 0.85rem;">
+                        🏛️ {{ opp.university }}
+                    </span>
+                    <span style="background: #27ae60; color: white; padding: 5px 10px; border-radius: 3px; font-size: 0.85rem;">
+                        📚 {{ opp.category }}
+                    </span>
+                    <span style="background: #e67e22; color: white; padding: 5px 10px; border-radius: 3px; font-size: 0.85rem;">
+                        🎓 {{ opp.domain }}
+                    </span>
+                </div>
+                <a href="{{ url_for('opportunities.view_opportunity', id=opp.id) }}" class="btn">View Details & Apply</a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align: center; padding: 40px; color: #999;">
+            No opportunities available yet. Click "Scrape New Opportunities" to fetch the latest!
+        </p>
+    {% endif %}
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+    <a href="{{ url_for('opportunities.all_opportunities') }}" class="btn">View All Opportunities</a>
+    <a href="{{ url_for('opportunities.my_applications') }}" class="btn">My Applications</a>
+    <a href="{{ url_for('opportunities.my_opportunities') }}" class="btn" style="background: #f39c12;">My Created Opportunities</a>
+    <a href="{{ url_for('community.index') }}" class="btn btn-success">Join Community</a>
+</div>
+{% endblock %}

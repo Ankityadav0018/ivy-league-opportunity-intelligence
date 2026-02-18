@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2 style="color: #2c3e50; margin-bottom: 15px;">{{ post.title }}</h2>
+    
+    <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #eee;">
+        <div style="display: flex; gap: 15px; align-items: center; font-size: 0.95rem; color: #666;">
+            <span><strong>{{ post.author.full_name }}</strong></span>
+            <span>|</span>
+            <span>{{ post.created_at.strftime('%B %d, %Y at %I:%M %p') }}</span>
+            {% if post.domain %}
+            <span style="background: #e67e22; color: white; padding: 4px 12px; border-radius: 12px;">{{ post.domain }}</span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div style="margin: 30px 0; line-height: 1.8; color: #333;">
+        {{ post.content }}
+    </div>
+    
+    <div style="display: flex; gap: 20px; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 5px;">
+        <form method="POST" action="{{ url_for('community.like_post', id=post.id) }}">
+            <button type="submit" class="btn" style="background: #e74c3c;">
+                ❤️ Like ({{ post.likes_count }})
+            </button>
+        </form>
+        <span style="padding: 10px; color: #666;">💬 {{ post.comments_count }} Comments</span>
+    </div>
+    
+    <div style="margin-top: 40px;">
+        <h3 style="margin-bottom: 20px;">💬 Comments</h3>
+        
+        {% if post.comments %}
+            <div style="display: grid; gap: 15px; margin-bottom: 30px;">
+                {% for comment in post.comments %}
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; border-left: 3px solid #3498db;">
+                    <div style="font-weight: bold; margin-bottom: 5px;">{{ comment.author.full_name }}</div>
+                    <div style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">
+                        {{ comment.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                    </div>
+                    <div style="color: #333;">{{ comment.content }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: #999; margin-bottom: 20px;">No comments yet. Be the first to comment!</p>
+        {% endif %}
+        
+        <form method="POST" action="{{ url_for('community.add_comment', id=post.id) }}">
+            <div class="form-group">
+                <label for="content">Add a Comment</label>
+                <textarea id="content" name="content" rows="4" required placeholder="Share your thoughts..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Post Comment</button>
+        </form>
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('community.index') }}" class="btn">← Back to Community</a>
+</div>
+{% endblock %}

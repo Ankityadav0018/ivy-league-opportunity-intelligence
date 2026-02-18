@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>📋 My Created Opportunities</h2>
+    <a href="{{ url_for('opportunities.create_opportunity') }}" class="btn btn-success">➕ Create New Opportunity</a>
+</div>
+
+<div class="card">
+    {% if opportunities %}
+        <div style="display: grid; gap: 20px;">
+            {% for opp in opportunities %}
+            <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: {% if opp.is_active %}white{% else %}#f5f5f5{% endif %};">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div style="flex: 1;">
+                        <h3 style="color: #2c3e50; margin-bottom: 10px;">
+                            {{ opp.title }}
+                            {% if not opp.is_active %}
+                            <span style="background: #95a5a6; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; margin-left: 10px;">
+                                Inactive
+                            </span>
+                            {% endif %}
+                        </h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                            <span style="background: #3498db; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem;">
+                                {{ opp.category }}
+                            </span>
+                            <span style="background: #e67e22; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem;">
+                                {{ opp.domain }}
+                            </span>
+                            {% if opp.university %}
+                            <span style="background: #27ae60; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem;">
+                                {{ opp.university }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <p style="color: #555; margin-bottom: 10px;">{{ opp.description[:200] }}{% if opp.description|length > 200 %}...{% endif %}</p>
+                        {% if opp.deadline %}
+                        <p style="font-size: 0.9rem; color: #666;">
+                            <strong>Deadline:</strong> {{ opp.deadline.strftime('%B %d, %Y') }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <a href="{{ url_for('opportunities.view_opportunity', id=opp.id) }}" class="btn" style="padding: 8px 15px;">
+                            👁️ View
+                        </a>
+                        <a href="{{ url_for('opportunities.edit_opportunity', id=opp.id) }}" class="btn" style="background: #f39c12; padding: 8px 15px;">
+                            ✏️ Edit
+                        </a>
+                        <form method="POST" action="{{ url_for('opportunities.toggle_opportunity_status', id=opp.id) }}" style="display: inline;">
+                            <button type="submit" class="btn" style="background: {% if opp.is_active %}#95a5a6{% else %}#27ae60{% endif %}; padding: 8px 15px;">
+                                {% if opp.is_active %}⏸️ Deactivate{% else %}▶️ Activate{% endif %}
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ url_for('opportunities.delete_opportunity', id=opp.id) }}" 
+                              onsubmit="return confirm('Are you sure you want to delete this opportunity? This action cannot be undone.');"
+                              style="display: inline;">
+                            <button type="submit" class="btn btn-danger" style="padding: 8px 15px;">
+                                🗑️ Delete
+                            </button>
+                        </form>
+                        
+                        <span style="margin-left: auto; font-size: 0.85rem; color: #999;">
+                            Created: {{ opp.extracted_at.strftime('%b %d, %Y') }}
+                        </span>
+                    </div>
+                </div>
+                
+                {% if opp.applications %}
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+                    <p style="font-size: 0.9rem; color: #666;">
+                        📊 <strong>{{ opp.applications|length }}</strong> student(s) applied to this opportunity
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 60px;">
+            <p style="font-size: 1.2rem; color: #999; margin-bottom: 20px;">
+                You haven't created any opportunities yet.
+            </p>
+            <p style="margin-bottom: 30px; color: #666;">
+                Share hackathons, internships, jobs, or other opportunities with the community!
+            </p>
+            <a href="{{ url_for('opportunities.create_opportunity') }}" class="btn btn-success" style="padding: 15px 30px;">
+                ➕ Create Your First Opportunity
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('opportunities.dashboard') }}" class="btn">← Back to Dashboard</a>
+</div>
+{% endblock %}

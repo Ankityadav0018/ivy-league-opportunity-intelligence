@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="margin-bottom: 30px;">✏️ Edit Opportunity</h2>
+
+<div class="card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Opportunity Title *</label>
+            <input type="text" id="title" name="title" required value="{{ opportunity.title }}">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" name="category" required>
+                    <option value="Hackathon" {% if opportunity.category == "Hackathon" %}selected{% endif %}>Hackathon</option>
+                    <option value="Internship" {% if opportunity.category == "Internship" %}selected{% endif %}>Internship</option>
+                    <option value="Job" {% if opportunity.category == "Job" %}selected{% endif %}>Full-Time Job</option>
+                    <option value="Research" {% if opportunity.category == "Research" %}selected{% endif %}>Research Position</option>
+                    <option value="Scholarship" {% if opportunity.category == "Scholarship" %}selected{% endif %}>Scholarship</option>
+                    <option value="Workshop" {% if opportunity.category == "Workshop" %}selected{% endif %}>Workshop</option>
+                    <option value="Conference" {% if opportunity.category == "Conference" %}selected{% endif %}>Conference</option>
+                    <option value="Other" {% if opportunity.category == "Other" %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="domain">Domain *</label>
+                <select id="domain" name="domain" required>
+                    <option value="Artificial Intelligence" {% if opportunity.domain == "Artificial Intelligence" %}selected{% endif %}>Artificial Intelligence</option>
+                    <option value="Computer Science" {% if opportunity.domain == "Computer Science" %}selected{% endif %}>Computer Science</option>
+                    <option value="Engineering" {% if opportunity.domain == "Engineering" %}selected{% endif %}>Engineering</option>
+                    <option value="Law" {% if opportunity.domain == "Law" %}selected{% endif %}>Law</option>
+                    <option value="Biomedical" {% if opportunity.domain == "Biomedical" %}selected{% endif %}>Biomedical</option>
+                    <option value="Economics" {% if opportunity.domain == "Economics" %}selected{% endif %}>Economics</option>
+                    <option value="Physics" {% if opportunity.domain == "Physics" %}selected{% endif %}>Physics</option>
+                    <option value="Chemistry" {% if opportunity.domain == "Chemistry" %}selected{% endif %}>Chemistry</option>
+                    <option value="Mathematics" {% if opportunity.domain == "Mathematics" %}selected{% endif %}>Mathematics</option>
+                    <option value="Other" {% if opportunity.domain == "Other" %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea id="description" name="description" rows="6" required>{{ opportunity.description }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="requirements">Requirements</label>
+            <textarea id="requirements" name="requirements" rows="4">{{ opportunity.requirements or '' }}</textarea>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="university">Company/Organization</label>
+                <input type="text" id="university" name="university" value="{{ opportunity.university or '' }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="{{ opportunity.location or '' }}">
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="deadline">Application Deadline</label>
+                <input type="date" id="deadline" name="deadline" 
+                       value="{% if opportunity.deadline %}{{ opportunity.deadline.strftime('%Y-%m-%d') }}{% endif %}">
+            </div>
+            
+            <div class="form-group">
+                <label for="url">External URL</label>
+                <input type="url" id="url" name="url" value="{{ opportunity.url or '' }}">
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 30px;">
+            <button type="submit" class="btn btn-success" style="padding: 15px 30px;">💾 Save Changes</button>
+            <a href="{{ url_for('opportunities.my_opportunities') }}" class="btn" style="background: #95a5a6; padding: 15px 30px;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

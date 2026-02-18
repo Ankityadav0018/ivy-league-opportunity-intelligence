@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="margin-bottom: 20px;">🌟 All Ivy League Opportunities</h2>
+
+<div class="card">
+    {% if opportunities %}
+        <div style="display: grid; gap: 20px;">
+            {% for opp in opportunities %}
+            <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: white;">
+                <h3 style="color: #2c3e50; margin-bottom: 10px;">{{ opp.title }}</h3>
+                <p style="margin-bottom: 15px;">{{ opp.description[:300] }}...</p>
+                
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                    <span style="background: #3498db; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem;">
+                        {{ opp.university }}
+                    </span>
+                    <span style="background: #27ae60; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem;">
+                        {{ opp.category }}
+                    </span>
+                    <span style="background: #e67e22; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem;">
+                        {{ opp.domain }}
+                    </span>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <a href="{{ url_for('opportunities.view_opportunity', id=opp.id) }}" class="btn">View Details</a>
+                    {% if opp.url %}
+                    <a href="{{ opp.url }}" target="_blank" class="btn" style="background: #95a5a6;">🔗 Visit Source</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align: center; padding: 60px; color: #999;">No opportunities found. Try scraping for new ones!</p>
+    {% endif %}
+</div>
+{% endblock %}

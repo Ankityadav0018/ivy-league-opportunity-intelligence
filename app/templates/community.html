@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>💬 Academic Community</h2>
+    <a href="{{ url_for('community.create_post') }}" class="btn btn-success">➕ Create Post</a>
+</div>
+
+<div class="card">
+    {% if posts %}
+        <div style="display: grid; gap: 25px;">
+            {% for post in posts %}
+            <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: white;">
+                <div style="margin-bottom: 15px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 8px;">
+                        <a href="{{ url_for('community.view_post', id=post.id) }}" style="text-decoration: none; color: inherit;">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    <div style="font-size: 0.9rem; color: #666;">
+                        by <strong>{{ post.author.full_name }}</strong> | 
+                        {{ post.created_at.strftime('%B %d, %Y') }}
+                        {% if post.domain %}
+                        | <span style="background: #e67e22; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.85rem;">{{ post.domain }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <p style="color: #555; line-height: 1.6; margin-bottom: 15px;">
+                    {{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}
+                </p>
+                
+                <div style="display: flex; gap: 20px; align-items: center; font-size: 0.9rem; color: #666;">
+                    <form method="POST" action="{{ url_for('community.like_post', id=post.id) }}" style="display: inline;">
+                        <button type="submit" style="background: none; border: none; cursor: pointer; color: #e74c3c; font-size: 1rem;">
+                            ❤️ {{ post.likes_count }}
+                        </button>
+                    </form>
+                    <span>💬 {{ post.comments_count }} comments</span>
+                    <a href="{{ url_for('community.view_post', id=post.id) }}" style="color: #3498db;">View Full Post →</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 60px;">
+            <p style="font-size: 1.2rem; color: #999; margin-bottom: 20px;">No posts yet. Be the first to share!</p>
+            <a href="{{ url_for('community.create_post') }}" class="btn btn-success">Create First Post</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
