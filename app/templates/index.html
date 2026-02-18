@@ -1,28 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="card" style="text-align: center; padding: 60px 40px;">
-    <h1 style="color: #2c3e50; font-size: 2.5rem; margin-bottom: 20px;">
-        🎓 Real-Time Ivy League Opportunity Intelligence
-    </h1>
-    <p style="font-size: 1.2rem; color: #555; margin-bottom: 30px;">
-        Your AI-Driven Platform for Discovering Workshops, Hackathons, Research Internships, 
-        Scholarships, and Conferences from Top Universities
+<div class="hero">
+    <h1>🎓 Ivy League Opportunity Intelligence</h1>
+    <p class="subtitle">
+        Discover Workshops, Hackathons, Research Internships, 
+        Scholarships & More from Top Universities
     </p>
-    
-    <div style="margin: 40px 0;">
-        <h3 style="margin-bottom: 20px;">Key Features:</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; text-align: left;">
-            <div>✅ Real-time opportunity monitoring</div>
-            <div>✅ AI-based domain classification</div>
-            <div>✅ Personalized recommendations</div>
-            <div>✅ Auto-application system</div>
-            <div>✅ Academic social network</div>
-            <div>✅ InCoScore ranking system</div>
-        </div>
+    <p class="description">
+        Stay updated with the latest opportunities from Ivy League universities. 
+        Get personalized recommendations, track your applications, and connect with fellow students.
+    </p>
+    <div class="features">
+        <div>✅ Real-time opportunity updates</div>
+        <div>✅ Smart domain classification</div>
+        <div>✅ Quick application system</div>
+        <div>✅ Student community network</div>
+        <div>✅ InCoScore ranking system</div>
     </div>
-    
-    <div style="margin-top: 40px;">
+    <div class="actions" style="margin-top: 40px;">
         <a href="{{ url_for('auth.register') }}" class="btn btn-success" style="margin: 0 10px; padding: 15px 30px; font-size: 1.1rem;">
             Get Started
         </a>

@@ -1,16 +1,17 @@
 """
-Module 2: AI-Based Domain Classification
-NLP-based classification of opportunities into domains
+Module 2: Domain Classification System
+Classifies opportunities into relevant domains using keyword matching and NLP techniques.
 """
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import pickle
 import os
-from typing import Dict
+import re
+from typing import Dict, List
 
 
 class DomainClassifier:
-    """AI-based classifier for categorizing opportunities by domain."""
+    """Classifier for categorizing opportunities by domain and type."""
     
     DOMAINS = [
         'Artificial Intelligence',
